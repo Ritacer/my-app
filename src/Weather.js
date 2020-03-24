@@ -1,25 +1,33 @@
 import React from "react";
 
-import axios from "axios";
-import Loader from "react-loader-spinner";
+import "./Weather.css";
 
-export default function Weather(props) {
-  function handleResponse(response) {
-    alert(
-      `The weather in ${response.data.name} is ${response.data.main.temp}ºC`
-    );
-  }
+import Search from "./Search";
+import Button from "./Button";
+import Overview from "./Overview";
+import Forecast from "./Forecast";
 
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${props.city}&appid=294e4b388de693d904ecaa1582666157&units=metric`;
-  axios.get(apiUrl).then(handleResponse);
-
+export default function Weather() {
   return (
-    <Loader
-      type="Audio"
-      color="#00BFFF"
-      height={100}
-      width={100}
-      timeout={3000}
-    />
+    <div className="Weather">
+      <div className="weather-wrapper">
+        <div className="row">
+          <div className="col-5">
+            <Search />
+            <Button />
+            <Overview />
+          </div>
+          <div className="col-7">
+            <Forecast />
+          </div>
+        </div>
+      </div>
+      <small>
+        <a href="https://github.com/Ritacer/know.your.weather" target="_blank">
+          Open-source code
+        </a>{" "}
+        by Rita Cerqueira, 2020
+      </small>
+    </div>
   );
 }

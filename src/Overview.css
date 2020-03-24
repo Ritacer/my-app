@@ -1,0 +1,49 @@
+.overview .li {
+  list-style: none;
+}
+.overview .location h1 {
+  font-size: 34px;
+  font-weight: 100;
+  line-height: 28px;
+  margin-bottom: 10px;
+  margin-top: 15px;
+}
+.overview .location {
+  margin-bottom: 10px;
+  margin-top: 25px;
+}
+.overview .clearfix {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+.overview .clearfix img {
+  display: block;
+  margin: 0 auto;
+  height: 62px;
+  width: 62px;
+}
+.overview .clearfix strong {
+  font-size: 62px;
+  font-weight: 400;
+  line-height: 1;
+}
+.overview .clearfix .units {
+  position: relative;
+  font-size: 16px;
+  top: -34px;
+}
+ul {
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-weight: 100;
+  line-height: 20px;
+}
+li:first-letter {
+  text-transform: capitalize;
+}

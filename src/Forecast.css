@@ -1,0 +1,31 @@
+.forecast h2 {
+  font-size: 30px;
+  font-weight: 500;
+  height: 15px;
+  line-height: 15x;
+  padding-top: 8px;
+  padding-bottom: 28px;
+}
+.forecast h3 {
+  font-size: 22px;
+  font-weight: 400;
+  text-align: center;
+  height: 15px;
+  line-height: 15px;
+  padding-top: 8px;
+  padding-bottom: 16px;
+}
+.forecast img {
+  display: block;
+  margin: 0 auto;
+  height: 56px;
+  width: 56px;
+}
+.forecast .weather-forecast-temperature {
+  font-size: 22px;
+  font-weight: 400;
+  text-align: center;
+  height: 15px;
+  line-height: 15px;
+  padding-top: 8px;
+}
