@@ -7,9 +7,38 @@ export default function Weather() {
   const [city, setCity] = useState("");
   const [meteorology, setMeteorology] = useState({});
 
+  function formatDate(timestamp) {
+    let date = new date(timestamp);
+    let days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ];
+    let day = days[date.getDay()];
+    return `${day} ${formatHours(timestamp)}`;
+  }
+
+  function formatHours(timestamp) {
+    let date = new date(timestamp);
+    let hours = date.getHours();
+    if (hours < 10) {
+      hours = `0${hours}`;
+    }
+    let minutes = date.getMinutes();
+    if (minutes < 10) {
+      minutes = `0${minutes}`;
+    }
+    return `${hours}:${minutes}`;
+  }
+
   function showWeather(response) {
     setMeteorology({
       name: response.data.name,
+      date: response.data.dt,
       description: response.data.weather[0].description,
       icon: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
       temperature: response.data.main.temp,
@@ -58,7 +87,9 @@ export default function Weather() {
                       <div className="location">
                         <h1>{meteorology.name}</h1>
                         <ul>
-                          <li>Last updated: 13.06</li>
+                          <li>
+                            Last updated:{formatDate(meteorology.date * 1000)}
+                          </li>
                           <li>{meteorology.description}</li>
                         </ul>
                       </div>
