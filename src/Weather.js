@@ -1,8 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
 import "./Weather.css";
 
 export default function Weather() {
+  const [city, setCity] = useState("");
+  const [meteorology, setMeteorology] = useState({});
+
+  function showWeather(response) {
+    setMeteorology({
+      name: response.data.name,
+      description: response.data.weather[0].description,
+      icon: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
+      temperature: response.data.main.temp,
+      wind: response.data.wind.speed,
+      humidity: response.data.main.humidity
+    });
+    console.log(response.data);
+  }
+  function handleSubmit(event) {
+    event.preventDefault();
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=294e4b388de693d904ecaa1582666157&units=metric`;
+    axios.get(apiUrl).then(showWeather);
+  }
+  function updateCity(event) {
+    setCity(event.target.value);
+  }
+
   return (
     <div className="Weather">
       <div className="weather-wrapper">
@@ -12,13 +36,14 @@ export default function Weather() {
               <form>
                 <div className="row">
                   <div className="col-auto">
-                    <form className="form-inline">
+                    <form className="form-inline" onSubmit={handleSubmit}>
                       <label className="sr-only" for="inlineFormInputName2" />
                       <input
                         type="text"
                         className="form-control mb-2 mr-sm-2"
                         placeholder="Enter city"
                         autoComplete="off"
+                        onChange={updateCity}
                       />
                       <button type="submit" className="btn btn-primary mb-2">
                         Submit
@@ -31,28 +56,28 @@ export default function Weather() {
                     </form>
                     <div className="overview">
                       <div className="location">
-                        <h1>Lisbon</h1>
+                        <h1>{meteorology.name}</h1>
                         <ul>
                           <li>Last updated: 13.06</li>
-                          <li>Sunny</li>
+                          <li>{meteorology.description}</li>
                         </ul>
                       </div>
                       <div className="clearfix">
                         <img
-                          src="https://ssl.gstatic.com/onebox/weather/64/sunny.png"
-                          alt="sun"
+                          src={meteorology.icon}
+                          alt={meteorology.description}
                           className="float-left"
                         />
                         <div className="float-left">
-                          <strong>24</strong>
+                          <strong>{Math.round(meteorology.temperature)}</strong>
                           <span className="units">
                             <a href="/">ºC</a> | <a href="/">ºF</a>
                           </span>
                         </div>
                       </div>
                       <ul>
-                        <li>Humidity: 10%</li>
-                        <li>Wind: 12km/h</li>
+                        <li>Humidity: {meteorology.humidity}%</li>
+                        <li>Wind: {Math.round(meteorology.wind)}km/h</li>
                       </ul>
                     </div>
                   </div>
