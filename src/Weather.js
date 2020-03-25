@@ -1,39 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import moment from "moment";
 
 import "./Weather.css";
 
 export default function Weather() {
   const [city, setCity] = useState("");
   const [meteorology, setMeteorology] = useState({});
-
-  function formatDate(timestamp) {
-    let date = new date(timestamp);
-    let days = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday"
-    ];
-    let day = days[date.getDay()];
-    return `${day} ${formatHours(timestamp)}`;
-  }
-
-  function formatHours(timestamp) {
-    let date = new date(timestamp);
-    let hours = date.getHours();
-    if (hours < 10) {
-      hours = `0${hours}`;
-    }
-    let minutes = date.getMinutes();
-    if (minutes < 10) {
-      minutes = `0${minutes}`;
-    }
-    return `${hours}:${minutes}`;
-  }
+  const properDate = moment.unix(meteorology.date * 1000);
 
   function showWeather(response) {
     setMeteorology({
@@ -45,8 +19,8 @@ export default function Weather() {
       wind: response.data.wind.speed,
       humidity: response.data.main.humidity
     });
-    console.log(response.data);
   }
+
   function handleSubmit(event) {
     event.preventDefault();
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=294e4b388de693d904ecaa1582666157&units=metric`;
@@ -87,9 +61,7 @@ export default function Weather() {
                       <div className="location">
                         <h1>{meteorology.name}</h1>
                         <ul>
-                          <li>
-                            Last updated:{formatDate(meteorology.date * 1000)}
-                          </li>
+                          <li>Last updated:{properDate}</li>
                           <li>{meteorology.description}</li>
                         </ul>
                       </div>
