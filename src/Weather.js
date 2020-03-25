@@ -7,7 +7,7 @@ import "./Weather.css";
 export default function Weather() {
   const [city, setCity] = useState("");
   const [meteorology, setMeteorology] = useState({});
-  const properDate = moment.unix(meteorology.date * 1000);
+  const properDate = moment.unix(meteorology.date).format("ddd, hA");
 
   function showWeather(response) {
     setMeteorology({
