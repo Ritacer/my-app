@@ -7,7 +7,8 @@ import "./Weather.css";
 export default function Weather() {
   const [city, setCity] = useState("");
   const [meteorology, setMeteorology] = useState({});
-  const properDate = moment.unix(meteorology.date).format("ddd, hA");
+  const properDate = moment.unix(meteorology.date).format("dddd, kk:mm");
+  const [forecast, setForecast] = useState({});
 
   function showWeather(response) {
     setMeteorology({
@@ -21,10 +22,21 @@ export default function Weather() {
     });
   }
 
+  function showForecast(response) {
+    setForecast({
+      forecIcon: `http://openweathermap.org/img/wn/${response.data.list[0].weather[0].icon}@2x.png`,
+      forecMaxTemp: response.data.list[0].main.temp
+    });
+    console.log(response.data);
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=294e4b388de693d904ecaa1582666157&units=metric`;
     axios.get(apiUrl).then(showWeather);
+
+    apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=294e4b388de693d904ecaa1582666157&units=metric`;
+    axios.get(apiUrl).then(showForecast);
   }
   function updateCity(event) {
     setCity(event.target.value);
@@ -61,7 +73,7 @@ export default function Weather() {
                       <div className="location">
                         <h1>{meteorology.name}</h1>
                         <ul>
-                          <li>Last updated:{properDate}</li>
+                          <li>Last updated: {properDate}</li>
                           <li>{meteorology.description}</li>
                         </ul>
                       </div>
@@ -94,12 +106,9 @@ export default function Weather() {
             <div className="row">
               <div className="col-auto">
                 <h3>17:30</h3>
-                <img
-                  src="https://ssl.gstatic.com/onebox/weather/64/sunny.png"
-                  alt=""
-                />
+                <img src={forecast.forecIcon} alt="" />
                 <div className="weather-forecast-temperature">
-                  <strong>33º </strong>13º
+                  <strong>{forecast.forecMaxTemp}º </strong>13º
                 </div>
               </div>
               <div className="col-auto">
