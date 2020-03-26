@@ -9,6 +9,7 @@ export default function Weather() {
   const [meteorology, setMeteorology] = useState({});
   const properDate = moment.unix(meteorology.date).format("dddd, kk:mm");
   const [forecast, setForecast] = useState({});
+  const properHour = moment.unix(forecast.forecHour).format("kk:mm");
 
   function showWeather(response) {
     setMeteorology({
@@ -24,10 +25,12 @@ export default function Weather() {
 
   function showForecast(response) {
     setForecast({
+      forecHour: response.data.list[0].dt,
       forecIcon: `http://openweathermap.org/img/wn/${response.data.list[0].weather[0].icon}@2x.png`,
-      forecMaxTemp: response.data.list[0].main.temp
+      forecDescription: response.data.list[0].description,
+      forecMaxTemp: response.data.list[0].main.temp_max,
+      forecMinTemp: response.data.list[0].main.temp_min
     });
-    console.log(response.data);
   }
 
   function handleSubmit(event) {
@@ -105,10 +108,11 @@ export default function Weather() {
             <br />
             <div className="row">
               <div className="col-auto">
-                <h3>17:30</h3>
-                <img src={forecast.forecIcon} alt="" />
+                <h3>{properHour}</h3>
+                <img src={forecast.forecIcon} alt={forecast.forecDescription} />
                 <div className="weather-forecast-temperature">
-                  <strong>{forecast.forecMaxTemp}º </strong>13º
+                  <strong>{Math.round(forecast.forecMaxTemp)}º </strong>
+                  {Math.round(forecast.forecMinTemp)}º
                 </div>
               </div>
               <div className="col-auto">
